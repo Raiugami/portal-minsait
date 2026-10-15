@@ -36,9 +36,9 @@ export const tools: Tool[] = [
   },
   {
     id: 'agendador-ferias',
-    nome: 'Agendador de férias',
+    nome: 'Planejamento de férias',
     descricao:
-      'Planejamento de férias da equipe: solicitações, aprovação pela gestora, frentes de trabalho e controle de conflitos no calendário.',
+      'Calendário de férias da equipe: solicitações, aprovação pela coordenação, saldo por período aquisitivo e alerta de conflitos de cobertura.',
     url: 'ferramentas/agendador-ferias.html',
     icone: 'CalendarDays',
     status: 'disponivel',
