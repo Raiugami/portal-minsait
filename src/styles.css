@@ -60,6 +60,14 @@ a.card:hover .card-cta{text-decoration:underline;text-decoration-color:var(--acc
   .sidebar.open{transform:none}
   .scrim{display:block;position:fixed;inset:0;z-index:20;background:#260717aa;border:0}
   .mobilebar{display:flex;align-items:center;gap:14px;padding:14px 16px;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+  .sidebar{visibility:hidden;transition:transform .2s,visibility .2s;overflow-y:auto}
+  .sidebar.open{visibility:visible}
+  .nav-item{min-height:44px}
+  .icon-btn{min-width:44px;min-height:44px}
+  .section-head{padding:16px}
+  .section-head h2{font-size:22px}
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .card{padding:18px 16px}
   main{padding:20px 16px 40px}
   .hero{padding:26px 22px 30px}
   .search{min-width:0;width:100%}

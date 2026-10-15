@@ -78,6 +78,7 @@
   button.icone { padding: 10px; border-color: transparent; background: none; }
   button.icone:hover { background: var(--step-bg); }
   .side button, .side-links button { border: 0; }
+  .side-toggle { display: none; }
   #btnTema .lua { display: none; }
   body.dark #btnTema .sol { display: none; }
   body.dark #btnTema .lua { display: block; }
@@ -140,6 +141,17 @@
   body.dark .chg-info { color: #ff9dbb; }
   .chg-card.sem .chg-info::before { content: "Atenção: "; font-weight: 700; }
   @media (max-width: 900px) { .chg-opcoes { margin-left: 0; width: 100%; } .chg-opcoes button { flex: 1; } }
+  .assist { margin-top: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  .chips-rotulo { font-size: 12px; color: var(--muted); margin-right: 2px; }
+  .chip { font-size: 12px; font-weight: 400; padding: 5px 11px; border: 0; border-radius: 999px; background: var(--chip); color: var(--chip-fg); text-align: left; line-height: 1.2; }
+  .chip:hover { background: var(--rosa-claro); color: var(--rosa); }
+  .chip-hist { background: transparent; border: 1px dashed var(--btn-border); }
+  .sugestoes { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; padding: 10px; border-radius: 10px; background: var(--step-bg); }
+  .sugestoes[hidden] { display: none; }
+  .checagens p { margin: 6px 0 0; font-size: 12.5px; color: #b0124a; display: flex; gap: 6px; }
+  body.dark .checagens p { color: #ff9dbb; }
+  .checagens .mais { color: var(--muted); padding-left: 12px; }
   .fase-corpo { display: grid; grid-template-columns: 1fr 190px; gap: 20px; padding: 0 20px 20px; }
   .stepper { display: flex; align-items: stretch; margin-top: 8px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--step-bg); }
   .stepper button { border: 0; border-radius: 0; background: var(--step-bg); padding: 0 14px; font-size: 18px; justify-content: center; color: var(--text); }
@@ -218,13 +230,37 @@
   }
   @media (max-width: 900px) {
     .app { grid-template-columns: minmax(0, 1fr); }
-    .side { position: static; height: auto; }
-    #historyList { max-height: 300px; flex: none; }
+    .side { position: static; height: auto; overflow: visible; padding: 16px; gap: 12px; }
+    .side h1 { font-size: 19px; }
+    .side .side-toggle { display: inline-flex; align-items: center; gap: 10px; justify-content: center; border: 1px solid var(--side-border); }
+    .side:not(.aberto) > :not(.logo):not(h1):not(.novo):not(.side-toggle) { display: none; }
+    .side:not(.aberto) #historyList { display: none; }
+    #historyList { max-height: 40vh; flex: none; }
     .content { padding: 20px 16px 40px; }
     .grid2, .fase-corpo { grid-template-columns: minmax(0, 1fr); }
     .topo-pagina h2 { font-size: 28px; }
     .grande strong { font-size: 44px; }
     .aviso { width: calc(100vw - 24px); }
+  }
+  @media (max-width: 600px) {
+    button, input, select { min-height: 44px; }
+    .topo-acoes { flex-wrap: wrap; width: 100%; }
+    .topo-acoes button:not(.icone) { flex: 1 1 140px; justify-content: center; }
+    .card { padding: 18px 16px; }
+    details.fase summary, .fase-fixa { padding: 14px 16px; gap: 10px; }
+    details.fase summary { flex-wrap: nowrap; }
+    .fase-titulo { min-width: 0; overflow-wrap: anywhere; }
+    .fase-titulo { font-size: 16px; }
+    .fase-corpo, .detalhes-corpo { padding: 0 16px 16px; }
+    .fase-fixa .controle-chg { margin-left: 0; width: 100%; }
+    .fase-fixa .nota { padding-left: 0; }
+    .chg-card { padding: 16px; }
+    .chg-textos { min-width: 0; flex: 1 1 140px; }
+    .chip { min-height: 36px; padding: 8px 12px; }
+    .stepper button { min-width: 48px; }
+    .inline { flex-wrap: wrap; }
+    .resumo { padding: 18px 16px; }
+    .subtitulo { margin-left: 0; }
   }
 </style>
 </head>
@@ -234,6 +270,7 @@
     <span class="logo"><img alt="Minsait" src="data:image/svg+xml;base64,PHN2ZyBpZD0idXVpZC05N2I0MTg0Yy02MDFhLTQ4MGItYWY0OS03ZjUxYTZiMmNiYjAiIGRhdGEtbmFtZT0iQ2FwYSAyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAwIDU3MS4wOCIgeG1sbnM6YzJwYT0iaHR0cDovL2MycGEub3JnL21hbmlmZXN0Ij4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLnV1aWQtMjI5NzM4YjUtOGJjZS00ZDMxLWI5YWYtNDc5YTQyYjZmMjRiIHsKICAgICAgICBmaWxsOiAjZmZmOwogICAgICAgIHN0cm9rZS13aWR0aDogMHB4OwogICAgICB9CiAgICA8L3N0eWxlPgogIDwvZGVmcz4KICA8ZyBpZD0idXVpZC0yYjZlOWIxNi04MGVlLTQyZWEtYWEwMi0yODc2YTEwOWJjN2QiIGRhdGEtbmFtZT0iQ2FwYSAxIj4KICAgIDxnPgogICAgICA8Zz4KICAgICAgICA8cGF0aCBjbGFzcz0idXVpZC0yMjk3MzhiNS04YmNlLTRkMzEtYjlhZi00NzlhNDJiNmYyNGIiIGQ9Ik0wLDU2Mi43NWwzMS40NCw4LjMzczM4NC41Ny0xMTcuMjEsNTAxLjYzLTEyNS4yYzExNy4wNSw3Ljk5LDUwMS42NCwxMjUuMiw1MDEuNjQsMTI1LjJsMzEuNDMtOC4zM3MtMzM0LjQ2LTIyOS44My01MzMuMDctMjM0LjI5QzMzNC40NiwzMzIuOTIsMCw1NjIuNzUsMCw1NjIuNzUiLz4KICAgICAgICA8cGF0aCBjbGFzcz0idXVpZC0yMjk3MzhiNS04YmNlLTRkMzEtYjlhZi00NzlhNDJiNmYyNGIiIGQ9Ik0xMDY2LjE0LDguMzNsLTMxLjQzLTguMzNzLTM4NC41OCwxMTcuMjEtNTAxLjYzLDEyNS4yQzQxNi4wMSwxMTcuMjEsMzEuNDMsMCwzMS40MywwTDAsOC4zM3MzMzQuNDYsMjI5LjgzLDUzMy4wOCwyMzQuMjljMTk4LjYtNC40Nyw1MzMuMDYtMjM0LjI5LDUzMy4wNi0yMzQuMjkiLz4KICAgICAgPC9nPgogICAgICA8cGF0aCBjbGFzcz0idXVpZC0yMjk3MzhiNS04YmNlLTRkMzEtYjlhZi00NzlhNDJiNmYyNGIiIGQ9Ik0xNTMwLjY3LDE0OS40NWgtMjkuNDV2NDAwLjU1aC0xMzYuOTVWMzQuNTloMjUyLjU1bDEyNC40NCwyOTUuMjZoNDQuMThsMTIzLjctMjk1LjI2aDI1Mi41NXY1MTUuNDFoLTEzNi45NVYxNDkuNDVoLTI5LjQ1bC0xMjkuNTksMjk1LjI2aC0yMDQuNjlsLTEzMC4zMy0yOTUuMjZaTTIzMjMuNjcsMzQuNTloMTM2Ljk1djUxNS40MWgtMTM2Ljk1VjM0LjU5Wk0yNjIyLjYsMzQuNTloMjQ1LjE4bDI2OC4wMiw0MDAuNTVoMjkuNDVWMzQuNTloMTM2Ljk1djUxNS40MWgtMjQ1LjE5bC0yNjguMDEtNDAwLjU1aC0yOS40NXY0MDAuNTVoLTEzNi45NVYzNC41OVpNMzQ0OS40Nyw1NTB2LTExNC44N2g0ODMuNzVjMjguNzEsMCw0NC45Mi0xNi4yLDQ0LjkyLTQ0Ljkxcy0xNi4yLTQ0LjkxLTQ0LjkyLTQ0LjkxaC0zMjQuNzFjLTEwOC4yNCwwLTE3My43Ny01OC4xNy0xNzMuNzctMTU1LjM2czY1LjUzLTE1NS4zNiwxNzMuNzctMTU1LjM2aDQ3My40NHYxMTQuODdoLTQ3My40NGMtMjUuNzcsMC00MC41LDE0LjcyLTQwLjUsNDAuNXMxNC43Myw0MC41LDQwLjUsNDAuNWgzMjQuNzFjMTExLjkyLDAsMTc4LjE5LDU5LjY0LDE3OC4xOSwxNTkuNzhzLTY2LjI2LDE1OS43OC0xNzguMTksMTU5Ljc4aC00ODMuNzVaTTQxNjkuNTYsNTQ3LjA2bDMwNy4wNC01MTIuNDdoMTk0LjM4bDMwNy4wNCw1MTIuNDd2Mi45NGgtMTUyLjQxbC01NS4yMi05NS43MmgtMzkzLjE4bC01NS4yMiw5NS43MmgtMTUyLjQxdi0yLjk0Wk00NzA0Ljg1LDMzOS40MmwtMTA4Ljk3LTE4OS45N2gtNDQuMThsLTEwOC45NywxODkuOTdoMjYyLjEyWk01MDg1LjUyLDM0LjU5aDEzNi45NXY1MTUuNDFoLTEzNi45NVYzNC41OVpNNTYwMC4xOSwxNDkuNDVoLTI2Mi44NlYzNC41OWg2NjIuNjd2MTE0Ljg3aC0yNjIuODZ2NDAwLjU1aC0xMzYuOTVWMTQ5LjQ1WiIvPgogICAgPC9nPgogIDwvZz4KPC9zdmc+"></span>
     <h1>Estimativas VIVO</h1>
     <button type="button" id="btnNew" class="novo"><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg> Nova estimativa</button>
+    <button type="button" id="btnSideToggle" class="side-toggle" aria-expanded="false" aria-controls="historyList"><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Histórico e opções</button>
     <hr>
     <h2><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Histórico</h2>
     <div class="search"><svg class="ico " viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="search" placeholder="Buscar por VBRAMO, atividade..." autocomplete="off"></div>
@@ -360,6 +397,11 @@ const FASES = [
   { num: 3, title: 'Testes', jornadasPadrao: 0 },
   { num: 4, title: 'Abertura e acompanhamento de CHG', jornadasPadrao: 3, fixa: true }
 ];
+const MODELOS = {
+  1: ['Analisar o fluxo de ...', 'Levantar as regras de negócio de ...', 'Mapear o impacto em ...', 'Validar o requisito com ...'],
+  2: ['Implementar regra para ...', 'Ajustar a consulta de ... via API', 'Criar rotina para ...', 'Adicionar lógica para ...'],
+  3: ['Validar se ...', 'Simular criação de ...', 'Testar o retorno de ... via tela e via API', 'Validar regressão de ...']
+};
 const FATOR_MULTIPLICADOR = 2.5;
 const STORAGE_KEY = 'estimativas_vivo_v1';
 const CATEGORIAS_KEY = 'estimativas_categorias';
@@ -388,9 +430,20 @@ function renderFormFields() {
         <svg class="ico chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
       </summary>
       <div class="fase-corpo">
-        <label>Subitens <small>(uma linha por item; a numeração é automática)</small>
-          <textarea id="fase${f.num}_items" rows="4"></textarea>
-        </label>
+        <div>
+          <label>Subitens <small>(uma linha por item; a numeração é automática)</small>
+            <textarea id="fase${f.num}_items" rows="4"></textarea>
+          </label>
+          <div class="assist">
+            <div class="chips">
+              <span class="chips-rotulo">Modelos:</span>
+              ${(MODELOS[f.num] || []).map(m => `<button type="button" class="chip" data-modelo="${f.num}" data-texto="${m}">${m.replace('...', '…')}</button>`).join('')}
+              <button type="button" class="chip chip-hist" data-historico="${f.num}">Do histórico</button>
+            </div>
+            <div class="sugestoes" id="sug${f.num}" hidden></div>
+            <div class="checagens" id="chk${f.num}"></div>
+          </div>
+        </div>
         <label>Jornadas
           <span class="stepper">
             <button type="button" data-passo="-0.5" data-alvo="fase${f.num}_jornadas" aria-label="Diminuir">−</button>
@@ -526,6 +579,83 @@ function parseAtividade(texto) {
   return { ritm: '', descricao: t };
 }
 
+/* ---------- Assistente de redação dos subitens (sem IA externa) ---------- */
+
+const VAGOS = ['teste', 'testes', 'ajuste', 'ajustes', 'correcao', 'correção', 'analise', 'análise', 'desenvolvimento', 'validacao', 'validação', 'x', 'xx', 'n/a', 'tbd', 'ok'];
+
+function linhasFase(num) {
+  return linhas($(`fase${num}_items`).value);
+}
+
+function checarFase(num) {
+  const itens = linhasFase(num);
+  const jornadas = Number($(`fase${num}_jornadas`).value) || 0;
+  const avisos = [];
+  if (!itens.length && jornadas > 0) avisos.push('Há jornadas nesta fase, mas nenhum subitem descrevendo o trabalho.');
+  if (itens.length && jornadas === 0) avisos.push('Há subitens nesta fase, mas as jornadas estão zeradas.');
+  const vistos = new Set();
+  itens.forEach((t, i) => {
+    const n = `${num}.${i + 1}`;
+    const norm = normalizarTexto(t);
+    if (VAGOS.includes(norm) || t.length < 12) avisos.push(`${n} está vago ou curto: diga o que será feito e em quê.`);
+    else if (!/^[a-zà-úç]+r(-se)?$/i.test(t.split(/\s+/)[0])) avisos.push(`${n} deveria começar com um verbo no infinitivo (Analisar, Implementar, Validar...).`);
+    if (t.length > 140) avisos.push(`${n} está longo: considere dividir em dois itens.`);
+    if (vistos.has(norm)) avisos.push(`${n} repete um item anterior.`);
+    vistos.add(norm);
+  });
+  return avisos;
+}
+
+function renderChecagens() {
+  FASES.filter(f => !f.fixa).forEach(f => {
+    const el = $(`chk${f.num}`);
+    if (!el) return;
+    const avisos = checarFase(f.num);
+    const extra = avisos.length > 4 ? `<p class="mais">+ ${avisos.length - 4} aviso(s)</p>` : '';
+    el.innerHTML = avisos.slice(0, 4).map(a => `<p><span aria-hidden="true">•</span>${escHtml(a)}</p>`).join('') + extra;
+  });
+}
+
+function inserirSubitem(num, texto, selecionarReticencias) {
+  const ta = $(`fase${num}_items`);
+  const ls = ta.value.split('\n').filter(l => l.replace(/^\d+\.\d+\.?\s*/, '').trim() !== '');
+  const novo = `${num}.${ls.length + 1} ${texto.replace(/^(?:-|\d+\.\d+\.?|\d+\.)\s*/, '')}`;
+  ta.value = [...ls, novo].join('\n');
+  const ini = ta.value.length - novo.length;
+  ta.focus();
+  const pos = selecionarReticencias ? novo.indexOf('...') : -1;
+  if (pos >= 0) ta.setSelectionRange(ini + pos, ini + pos + 3);
+  else ta.setSelectionRange(ta.value.length, ta.value.length);
+  updateTotal();
+}
+
+function sugestoesHistorico(num) {
+  const ta = $(`fase${num}_items`);
+  const atuais = new Set(linhasFase(num).map(normalizarTexto));
+  const ultima = (ta.value.split('\n').pop() || '').replace(/^\d+\.\d+\.?\s*/, '');
+  const termo = normalizarTexto(ultima);
+  const vistos = new Set(), lista = [];
+  estimates.forEach(e => {
+    const f = (e.fases || []).find(x => x.num === num);
+    (f && f.items || []).forEach(t => {
+      const n = normalizarTexto(t);
+      if (!t || vistos.has(n) || atuais.has(n)) return;
+      vistos.add(n);
+      if (termo.length < 3 || n.includes(termo)) lista.push(t);
+    });
+  });
+  return lista.slice(0, 8);
+}
+
+function renderSugestoes(num) {
+  const box = $(`sug${num}`);
+  if (box.hidden) return;
+  const lista = sugestoesHistorico(num);
+  box.innerHTML = lista.length
+    ? lista.map(t => `<button type="button" class="chip chip-uso" data-usar="${num}" data-texto="${escHtml(t)}">${escHtml(t)}</button>`).join('')
+    : '<span class="nota">Nada no histórico para esta fase ainda.</span>';
+}
+
 function animarNumero(el, alvo, formato) {
   const de = el._valor === undefined ? alvo : el._valor;
   el._valor = alvo;
@@ -545,6 +675,8 @@ function animarNumero(el, alvo, formato) {
 function updateTotal() {
   $('atividadePrevia').textContent = $('ritm').value.trim() || $('descricao').value.trim()
     ? `Atividade no .xlsx: ${composeAtividade($('ritm').value, $('sistema').value, $('descricao').value)}` : '';
+  renderChecagens();
+  FASES.filter(f => !f.fixa).forEach(f => renderSugestoes(f.num));
   const d = getForm();
   const r = calcJornadas(d);
   $('somaFases').textContent = fmt(r.soma);
@@ -1174,6 +1306,7 @@ function init() {
   $('btnFechaAviso').addEventListener('click', () => { $('aviso').hidden = true; });
   $('form').addEventListener('input', updateTotal);
   $('form').addEventListener('change', updateTotal);
+  $('btnSideToggle').addEventListener('click', () => { const aberto = $('btnSideToggle').closest('.side').classList.toggle('aberto'); $('btnSideToggle').setAttribute('aria-expanded', aberto); });
   $('btnNew').addEventListener('click', () => { currentId = null; setForm(emptyEstimate()); showErrors([]); renderHistory(); flash('Nova estimativa.'); });
   $('fases').addEventListener('keydown', ev => {
     const ta = ev.target;
@@ -1199,6 +1332,17 @@ function init() {
   });
   document.querySelectorAll('[data-chg]').forEach(b => b.addEventListener('click', () => { $('chg').value = b.dataset.chg; updateTotal(); }));
   $('fases').addEventListener('click', ev => {
+    const chip = ev.target.closest('button[data-modelo], button[data-usar], button[data-historico]');
+    if (chip) {
+      if (chip.dataset.modelo) inserirSubitem(Number(chip.dataset.modelo), chip.dataset.texto, true);
+      else if (chip.dataset.usar) inserirSubitem(Number(chip.dataset.usar), chip.dataset.texto, false);
+      else {
+        const box = $(`sug${chip.dataset.historico}`);
+        box.hidden = !box.hidden;
+        renderSugestoes(Number(chip.dataset.historico));
+      }
+      return;
+    }
     const b = ev.target.closest('button[data-alvo]');
     if (!b) return;
     const campo = $(b.dataset.alvo);
