@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configuração SIGITM</title>
+<style>
+  :root { --bg:#f6f7f9; --card:#fff; --text:#1c2430; --muted:#5b6675; --line:#dfe3e9; --accent:#0a5cff; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#12161c; --card:#1b212a; --text:#e8ecf2; --muted:#9aa5b4; --line:#2c3541; --accent:#6ea2ff; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif; }
+  main { max-width:860px; margin:0 auto; padding:32px 16px 64px; }
+  a { color:var(--accent); }
+  h1 { margin:0 0 4px; font-size:1.7rem; }
+  .lead { color:var(--muted); margin:0 0 24px; }
+  .aviso { background:var(--card); border:1px solid var(--line); border-left:4px solid var(--accent); border-radius:8px; padding:12px 16px; margin-bottom:24px; }
+  section { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px 20px; margin-bottom:16px; }
+  h2 { margin:0 0 8px; font-size:1.15rem; }
+  ol { margin:0; padding-left:22px; }
+  li { margin:4px 0; }
+  .opc { color:var(--muted); font-size:.9em; }
+</style>
+</head>
+<body>
+<main>
+  <p><a href="../">← Voltar ao portal</a></p>
+  <h1>Configuração SIGITM</h1>
+  <p class="lead">Roteiro para preparar o computador de um novo analista SIGITM, em três trilhas.</p>
+
+  <div class="aviso">
+    A execução é feita por um assistente local no seu Windows. O pacote de instalação contém configurações internas e
+    não é publicado aqui: peça-o à equipe pelo canal interno (SharePoint ou Teams).
+  </div>
+
+  <section>
+    <h2>Trilha SIGITM TI · 2</h2>
+    <ol>
+      <li>Instalar as ferramentas automatizadas</li>
+      <li>Preparar o comando zip exigido pelo SDKMAN</li>
+      <li>Instalar SDKMAN e as versões do SIGITM 2</li>
+      <li>Instalar Maven 3.2.5 local para o módulo de inventário</li>
+      <li>Aplicar a configuração local segura</li>
+      <li>Disponibilizar acesso ao Nexus pelo processo aprovado</li>
+      <li>Definir a identidade Git do usuário</li>
+      <li>Clonar os repositórios SIGITM TI · 2</li>
+      <li>Selecionar versões automaticamente nos projetos</li>
+      <li>Preparar o estilo da IntelliJ e importar os módulos Maven</li>
+      <li>Preparar o build dos módulos locais <span class="opc">(build de domínio apenas quando necessário)</span></li>
+      <li>Vincular o projeto Gradle e revisar o workspace na IDE</li>
+      <li>Validar a inicialização local <span class="opc">(opcional)</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Trilha SIGITM TA · 3</h2>
+    <ol>
+      <li>Instalar as ferramentas automatizadas</li>
+      <li>Preparar o comando zip exigido pelo SDKMAN</li>
+      <li>Instalar SDKMAN e as versões do SIGITM 3</li>
+      <li>Aplicar a configuração local segura</li>
+      <li>Disponibilizar acesso ao Nexus pelo processo aprovado</li>
+      <li>Definir a identidade Git do usuário</li>
+      <li>Clonar os repositórios SIGITM TA · 3</li>
+      <li>Selecionar versões automaticamente nos projetos</li>
+      <li>Preparar o estilo da IntelliJ nos projetos</li>
+      <li>Configurar Oracle e os aliases TNS</li>
+      <li>Validar os apontamentos internos com a equipe</li>
+      <li>Construir os módulos locais necessários <span class="opc">(domínio apenas quando houver mudanças de tabelas/campos)</span></li>
+      <li>Gerar o workspace Maven, configurar a importação e vincular o servidor como Gradle</li>
+      <li>Preparar os perfis de execução do Server e do Client</li>
+      <li>Confiar e revisar o workspace na IDE</li>
+      <li>Subir e validar o ambiente local <span class="opc">(opcional)</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Trilha PL/SQL Developer</h2>
+    <ol>
+      <li>Instalar Oracle Instant Client 19c</li>
+      <li>Configurar TNS_ADMIN e NLS_LANG</li>
+      <li>Instalar o PL/SQL Developer aprovado pela empresa</li>
+      <li>Vincular o Oracle Home e a OCI na IDE</li>
+      <li>Importar as conexões corporativas aprovadas</li>
+      <li>Aplicar as preferências de segurança SQL</li>
+    </ol>
+  </section>
+</main>
+</body>
+</html>

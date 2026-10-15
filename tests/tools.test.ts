@@ -18,6 +18,14 @@ test('validação aponta id repetido e url insegura', () => {
   assert.ok(erros.some((e) => e.includes('https')));
 });
 
+test('validação aceita caminho do portal e rejeita caminhos perigosos', () => {
+  const base = tools[0];
+  assert.deepEqual(validarFerramentas([{ ...base, url: 'ferramentas/x.html' }]), []);
+  for (const url of ['/ferramentas/x.html', '../x.html', 'ferramentas/../x.html', 'javascript:alert(1)']) {
+    assert.ok(validarFerramentas([{ ...base, url }]).length > 0, url);
+  }
+});
+
 test('busca ignora acentos e maiúsculas', () => {
   assert.equal(buscarFerramentas(tools, 'DEDICACAO').length, 1);
   assert.equal(buscarFerramentas(tools, 'inexistente').length, 0);

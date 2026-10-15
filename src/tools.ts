@@ -34,7 +34,42 @@ export const tools: Tool[] = [
     status: 'disponivel',
     tags: ['horas', 'dedicação', 'jira', 'conferência', 'pdf'],
   },
+  {
+    id: 'agendador-ferias',
+    nome: 'Agendador de férias',
+    descricao:
+      'Planejamento de férias da equipe: solicitações, aprovação pela gestora, frentes de trabalho e controle de conflitos no calendário.',
+    url: 'ferramentas/agendador-ferias.html',
+    icone: 'CalendarDays',
+    status: 'disponivel',
+    tags: ['férias', 'calendário', 'equipe', 'aprovação', 'planejamento'],
+  },
+  {
+    id: 'gerador-estimativas-vivo',
+    nome: 'Gerador de estimativas VIVO',
+    descricao: 'Monta estimativas de esforço para as demandas da VIVO a partir de uma página única, direto no navegador.',
+    url: 'ferramentas/gerador-estimativas-vivo.html',
+    icone: 'Calculator',
+    status: 'disponivel',
+    tags: ['estimativa', 'vivo', 'esforço', 'demanda'],
+  },
+  {
+    id: 'configuracao-sigitm',
+    nome: 'Configuração SIGITM',
+    descricao:
+      'Roteiro das trilhas para preparar o computador de um novo analista SIGITM. A execução é feita pelo assistente local.',
+    url: 'ferramentas/configuracao-sigitm.html',
+    icone: 'Wrench',
+    status: 'disponivel',
+    tags: ['sigitm', 'ambiente', 'instalação', 'analista', 'roteiro'],
+  },
 ];
+
+/** Aceita HTTPS ou caminho relativo do portal (sem esquema, sem "/" inicial e sem "..") para ferramentas hospedadas em public/. */
+function urlValida(url: string): boolean {
+  if (/^https:\/\//.test(url)) return true;
+  return /^[\w-]+(\/[\w.-]+)+$/.test(url) && !url.includes('..');
+}
 
 /** Problemas de cadastro de uma lista de ferramentas (vazio = tudo certo). */
 export function validarFerramentas(lista: Tool[]): string[] {
@@ -46,7 +81,7 @@ export function validarFerramentas(lista: Tool[]): string[] {
     ids.add(t.id);
     if (!t.nome.trim()) erros.push(`${t.id}: nome vazio`);
     if (!t.descricao.trim()) erros.push(`${t.id}: descrição vazia`);
-    if (!/^https:\/\//.test(t.url)) erros.push(`${t.id}: url deve começar com https://`);
+    if (!urlValida(t.url)) erros.push(`${t.id}: url deve começar com https:// ou ser um caminho dentro do portal (ex.: ferramentas/x.html)`);
   }
   return erros;
 }
