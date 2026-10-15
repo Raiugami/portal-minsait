@@ -1,0 +1,4 @@
+Visual reference: https://www.minsait.com/es
+Logo: https://www.minsait.com/cms-content/2025/06/minsait-logo-dark.svg
+Fonts: https://www.minsait.com/fonts/ForFutureSans/ForFutureSans-Regular.woff2 and ForFutureSans-Light.woff2
+Original brand assets belong to Minsait / Indra Group. Used for the requested internal application design.
