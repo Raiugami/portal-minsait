@@ -1,9 +1,10 @@
 import { ArrowUpRight, Home, Menu, Search, X } from 'lucide-react';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type PointerEvent } from 'react';
+import { Demo } from './demos';
 import { iconeDa } from './icons';
 import { buscarFerramentas, tools, type Tool } from './tools';
 
-function Card({ tool }: { tool: Tool }) {
+function Card({ tool, ordem }: { tool: Tool; ordem: number }) {
   const Icone = iconeDa(tool.icone);
   const ativo = tool.status === 'disponivel';
   const corpo = (
@@ -14,13 +15,20 @@ function Card({ tool }: { tool: Tool }) {
       </div>
       <h3>{tool.nome}</h3>
       <p>{tool.descricao}</p>
+      <Demo id={tool.id} />
       {ativo && <span className="card-cta">Abrir ferramenta <ArrowUpRight size={16} aria-hidden /></span>}
     </>
   );
+  /** Holofote que acompanha o ponteiro (só altera variáveis CSS; desligado com movimento reduzido). */
+  const seguir = (e: PointerEvent<HTMLElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`);
+    e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`);
+  };
   return ativo ? (
-    <a className="card" href={tool.url} target="_blank" rel="noopener noreferrer">{corpo}</a>
+    <a className="card" style={{ ['--i' as string]: ordem }} onPointerMove={seguir} href={tool.url} target="_blank" rel="noopener noreferrer">{corpo}</a>
   ) : (
-    <div className="card card-off" aria-disabled="true">{corpo}</div>
+    <div className="card card-off" style={{ ['--i' as string]: ordem }} aria-disabled="true">{corpo}</div>
   );
 }
 
@@ -62,6 +70,13 @@ export function App() {
         </header>
         <main id="inicio">
           <section className="hero">
+            <svg className="hero-art" viewBox="0 0 220 160" aria-hidden focusable="false">
+              <path className="hero-x hx1" d="M10 20 L90 70 L10 120" />
+              <path className="hero-x hx2" d="M210 20 L130 70 L210 120" />
+              <circle className="hero-dot hd1" cx="110" cy="30" r="4" />
+              <circle className="hero-dot hd2" cx="60" cy="140" r="3" />
+              <circle className="hero-dot hd3" cx="170" cy="130" r="5" />
+            </svg>
             <p className="eyebrow">Operação Minsait</p>
             <h1>Portal de ferramentas</h1>
             <p className="hero-sub">Ferramentas de IA para facilitar o dia a dia da operação, reunidas num só lugar.</p>
@@ -82,7 +97,7 @@ export function App() {
           </div>
 
           {lista.length ? (
-            <div className="grid">{lista.map((t) => <Card key={t.id} tool={t} />)}</div>
+            <div className="grid">{lista.map((t, i) => <Card key={t.id} tool={t} ordem={i} />)}</div>
           ) : (
             <p className="empty">Nenhuma ferramenta encontrada para “{busca}”.</p>
           )}

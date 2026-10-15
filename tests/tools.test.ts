@@ -31,3 +31,17 @@ test('busca ignora acentos e maiúsculas', () => {
   assert.equal(buscarFerramentas(tools, 'inexistente').length, 0);
   assert.equal(buscarFerramentas(tools, '  ').length, tools.length);
 });
+
+test('toda ferramenta disponível tem demonstração animada', async () => {
+  const { idsComDemo } = await import('../src/demos');
+  for (const t of tools.filter((x) => x.status === 'disponivel')) {
+    assert.ok(idsComDemo.includes(t.id), `${t.id} sem demo`);
+  }
+});
+
+test('o CSS desliga as animações com prefers-reduced-motion', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const css = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8');
+  const bloco = css.slice(css.indexOf('@media(prefers-reduced-motion:reduce)'));
+  assert.match(bloco, /animation:none!important/);
+});
